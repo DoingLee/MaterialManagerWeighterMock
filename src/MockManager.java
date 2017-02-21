@@ -11,14 +11,14 @@ public class MockManager {
         weighter = new Weighter();
         weighter.start();
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        mobile = new Mobile();
-        mobile.start();
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        mobile = new Mobile();
+//        mobile.start();
 
     }
 }

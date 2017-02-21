@@ -3,7 +3,6 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.charset.Charset;
 
 /**
  * Created by Doing on 2017/1/13 0013.
@@ -24,7 +23,7 @@ public class Mobile extends Thread {
 //            mobileSocket = new Socket("127.0.0.1", 10002, null, 6002);
             mobileSocket = new Socket();
             mobileSocket.setReuseAddress(true);
-            mobileSocket.setSoTimeout(60 * 1000);
+            mobileSocket.setSoTimeout(3600 * 1000);
             mobileSocket.connect(new InetSocketAddress("127.0.0.1", 10002));
             weight();
             mobileSocket.close();
@@ -49,8 +48,6 @@ public class Mobile extends Thread {
             out.println(requireString);
             out.println("end");
             out.flush();
-//            outputStream.write(requireString.getBytes(Charset.forName("UTF-8")));
-//            outputStream.flush();
 
             log("移动端阻塞等待称重完成");
             InputStream inputStream = mobileSocket.getInputStream();  //阻塞
@@ -79,11 +76,6 @@ public class Mobile extends Thread {
         StringBuilder sb = new StringBuilder();
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-//                String str = bufferedReader.readLine();
-//                while (str != null && !str.equals("")) {
-//                    sb.append(str);
-//                    str = bufferedReader.readLine();
-//                }
             boolean flag = true;
             while(flag){
                 //接收从客户端发送过来的数据

@@ -24,12 +24,14 @@ public class Weighter extends Thread {
 //            weighterSocket = new Socket("127.0.0.1", 10001, null, 6001);
             weighterSocket = new Socket();
             weighterSocket.setReuseAddress(true);
-            weighterSocket.setSoTimeout(60 * 1000);
+            weighterSocket.setSoTimeout(3600 * 1000);
             weighterSocket.connect(new InetSocketAddress("127.0.0.1", 10001));
 
             register();
-            weight();
-            weighterSocket.close();
+            while (true) {
+                weight();  //循环等待称重
+            }
+//            weighterSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,7 +65,12 @@ public class Weighter extends Thread {
 //                int requiredWeight = jsonObject.getInt("weight");
 
                 //模拟称重
-                String result = "{realWeight : 100.08}";
+                System.out.println("输入称重质量浮点数（g）：");
+                BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+                String realWeight = input.readLine(); //阻塞，知道遇到换行符才成功输入
+                String result = "{realWeight : " +
+                        realWeight +
+                        "}";
                 OutputStream outputStream = weighterSocket.getOutputStream();
                 PrintStream out = new PrintStream(outputStream);
                 out.println(result);
